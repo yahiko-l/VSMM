@@ -1,0 +1,16 @@
+实验为了方便期间：
+尽量采样当前已有的包对模型进行评测
+BLEU：sacrebleu
+地址：https://github.com/mjpost/sacrebleu
+
+
+ROUGE-l: sacrerouge
+地址：https://github.com/danieldeutsch/sacrerouge
+安装教程：https://github.com/danieldeutsch/sacrerouge/blob/master/doc/tutorials/evaluating-models.md
+
+
+评论生成的评估思想：
+在多个候选的评论中选择最大的那个
+
+评估方式中在不同的smoothing_function下，会造成很大的结果差异
+

@@ -1,0 +1,107 @@
+# data
+dataset_name: 'NeteaseComment'
+lang: ch
+train_file: 'data/NeteaseComment/NeteaseComment_dev.json'
+valid_file: 'data/NeteaseComment/NeteaseComment_dev.json'
+test_file: 'data/NeteaseComment/NeteaseComment_test.json'
+vocab_file: 'data/NeteaseComment/vocab.txt'
+remove_stop: True
+stop_words: 'data/NeteaseComment/NeteaseComment_stop_words.txt'
+max_comment_num: 5
+vocab_size: 100000
+use_content: True
+
+train_sample_num: 0
+
+
+# pretrain parameter
+use_pretrained_word_embedding: False
+word_embedding_path: 'data/word2vector/tencent-ailab-embedding-zh-d100-v0.2.0-s.json'
+
+
+# model
+model: 'VarSelectMechHierarchical'
+emb_size: 256
+encoder_hidden_size: 256
+decoder_hidden_size: 512
+num_layers: 1
+bidirec: True
+shared_vocab: True
+max_tgt_len: 50
+max_article_len: 1000             # 最大文章长度
+dropout: 0.1
+embedding_dropout: 0.5
+drop_dec_input: False
+bow_hidden_size: 512
+rnn_type: 'gru'                     # rnn_type have (gru, lstm)
+encode_rnn_type: 'lstm'             # 在 测试时，注意这个编码器选择
+
+# Special parameters
+n_components: 15                 # when n_components == 1, only one GaussianVariation, 消融实验为 1, 5, 10, 20, 30
+latent_dim: 200
+gaussian_mix_type: 'gmm'        # [gmm  or  lgm]
+use_bow_loss: True              # 消融实验，默认是使用 True,  不使用bow——loss设置为 False
+n_step_annealing: 40000
+gradient_clip: 1.0
+gen_type: 'beam'              # [greedy, top, sample, beam, beam_sample, mmi_anti_lm]
+ranking_type: 'top-1'           # greedy包含[random   top-1]  beam包含[top-beam_size, full], 训练时采用random 节约时间
+decoding_select_mechanism: True
+
+
+num_mappings: 10
+tau: 0.67
+mode: 'serial'                # serial , parallel
+KL_Vanishing: 'ControlVAE'   # KL_annealing, BN-VAE, CyclicalAnnealing, ControlVAE
+gamma: 0.5
+
+
+# optimize
+epoch: 40
+batch_size: 15
+param_init: 0.01
+optim: 'adam'
+learning_rate: 0.0005
+max_grad_norm: 8
+learning_rate_decay: 0.5
+schedule: False
+start_decay_at: 2
+teacher_forcing_ratio: 1.0
+
+
+# log
+log_dir: 'results/log_NeteaseComment/'
+print_interval: 1000
+eval_interval: 10000
+save_interval: 10000
+metric: ['bleu', 'xent']
+
+
+# generate
+max_generator_batches: 1
+beam_size: 5
+
+
+# for topic vae
+n_z: 64
+n_topic_num: 100
+one_user: False
+gama_cluster: 0.2
+gama_prior: 0.2
+gama_bow: 1.0
+
+
+# for saliency
+tau: 0.5
+gama_saliency: 0.0005
+
+
+# for topic prediction
+con_one_user: False
+gama_topic: 0.2
+
+
+# generation with topic
+no_topk: False
+topk_num: 5
+swap_topic: 2
+
